@@ -295,6 +295,24 @@ def validate_yahtzee(die: str) -> int:
         return 0
 
 
+def validate_chance(die: str) -> int:
+    """ Validate chance.
+
+    Returns the value of the combo.
+
+    :param die: current die the player has
+    :precondition: die is a string
+    :postcondition: returns an int of the value of the player's hand
+    :return: value of player's combo as an int
+
+    >>> validate_chance('11335')
+    13
+    """
+
+    numbers = list(map(int, die))
+    return sum(numbers)
+
+
 def validate_combo(current_dice: list, combo_choice: str) -> int:
     """ Check dice combination.
 
