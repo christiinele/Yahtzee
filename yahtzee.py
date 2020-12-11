@@ -83,8 +83,6 @@ def remove_die(current_die: list) -> list:
     dice_selection = True
 
     while dice_selection:
-        print_current_hand(current_die)
-        print("\n")
         for index in range(len(current_die)):
             print(f"{index + 1}. {current_die[index]}")
 
@@ -100,6 +98,30 @@ def remove_die(current_die: list) -> list:
             dice_selection = False
 
     return current_die
+
+
+def re_roll(die):
+    times_to_roll = 0
+
+    while times_to_roll < 2:
+        remove_die(die)
+        print("Your new hand is: ")
+        print_current_hand(roll_die(die))
+        print("\n")
+        times_to_roll += 1
+
+    return die
+
+
+def take_turn():
+    die = roll_die([])
+    print_current_hand(die)
+
+    roll_again = input("\nDo you want to re-roll any of the dice in your hand?\
+                       \n\t1. Yes\n\t2. No\n")
+
+    if roll_again == "1":
+        re_roll(die)
 
 
 def validate_combo(current_dice: list, combo_choice: str) -> int:
@@ -154,7 +176,7 @@ def initialize_game():
     Print interface for players to start the game.
     """
 
-    remove_die([1, 2, 3, 4, 5])
+    take_turn()
 
 
 def main():
