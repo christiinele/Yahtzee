@@ -10,6 +10,9 @@ import re
 import doctest
 
 
+MIN = 0
+
+
 def list_to_string(die: list) -> str:
     string = ""
 
@@ -39,7 +42,7 @@ def return_key(choice):
     return keys[choice - 1]
 
 
-def create_scorecard() -> dict:
+def create_score_card() -> dict:
     """ Create a score card.
 
     Generates a score card that can be updated with the players' scores as the game progresses.
@@ -440,9 +443,13 @@ def check_bonus(scorecard: dict) -> bool:
     return None
 
 
-def take_turn():
-    """
-    Simulate single turn.
+def take_turn(player_card: dict, yahtzee_bonus: int):
+    """ Simulate a single turn.
+
+    Iterates through a single player's turn.
+
+    :param player_card: dictionary containing player's score card
+    :param yahtzee_bonus: int containing player's current Yahtzee bonus
     """
 
     die = roll_die([])
@@ -454,13 +461,36 @@ def take_turn():
     if roll_again == "1":
         re_roll(die)
 
+    combo_choice(player_card, die, yahtzee_bonus)
+    print("-- PLAYER'S CURRENT SCORE --")
+    print_score(player_card)
+
 
 def initialize_game():
     """
     Print interface for players to start the game.
     """
 
-    #take_turn()
+    p1_card = create_score_card()
+    p2_card = create_score_card()
+    p1_bonus = MIN
+    p2_bonus = MIN
+
+    round_ongoing = True
+
+    while round_ongoing:
+        if -1 in p1_card.values():
+            print("-- IT IS PLAYER ONE'S TURN --")
+            take_turn(p1_card, p1_bonus)
+
+        print("\n")
+
+        if -1 in p2_card.values():
+            print("-- IT IS PLAYER TWO'S TURN --")
+            take_turn(p2_card, p2_bonus)
+
+        if -1 not in p1_card.values() and -1 not in p2_card.values():
+            round_ongoing = False
 
 
 def main():
@@ -469,7 +499,7 @@ def main():
     """
 
     doctest.testmod(verbose=True)
-    #initialize_game()
+    initialize_game()
 
 
 if __name__ == "__main__":
