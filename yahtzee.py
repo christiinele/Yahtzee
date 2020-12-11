@@ -5,7 +5,10 @@ Final - Yahtzee
 """
 
 
-def create_scorecard() -> dict:
+import random
+
+
+def create_score_card() -> dict:
     """ Create a score card.
 
     Generates a score card that can be updated with the players' scores as the game progresses.
@@ -20,7 +23,7 @@ def create_scorecard() -> dict:
     return score_card
 
 
-def print_score(scorecard: dict):
+def print_score(score_card: dict):
     """ Print score card.
 
     Display players' current scored combos and sum of their scores.
@@ -29,7 +32,8 @@ def print_score(scorecard: dict):
     :postcondition: displays players' scores in a readable format
     """
 
-    return None
+    for key, value in score_card.items():
+        print(f"{key}\t{value}")
 
 
 def roll_die(current_die: list) -> list:
@@ -43,6 +47,12 @@ def roll_die(current_die: list) -> list:
     :postcondition: fills out the empty fields in the list with integers from 1-6
     :return: list of die
     """
+
+    if len(current_die) < 5:
+        for dice in range(5 - len(current_die)):
+            current_die.append(random.randrange(1, 7))
+
+    return current_die
 
 
 def select_die(current_die: list) -> list:
