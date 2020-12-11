@@ -8,10 +8,22 @@ import random
 import re
 import doctest
 
+
 MIN = 0
 
 
 def list_to_string(die: list) -> str:
+    """ Convert list to string
+
+    Takes list of die and converts it to a string.
+
+    :param die: list of player's die
+    :return: list of player's die as a single string
+
+    >>> list_to_string([1, 2, 3, 4, 5])
+    '12345'
+    """
+
     string = ""
 
     for item in sorted(die):
@@ -31,6 +43,8 @@ def return_key(choice):
 
     >>> return_key(1)
     'Ones'
+    >>> return_key(13)
+    'Chance'
     """
 
     keys = ["Ones", "Twos", "Threes", "Fours", "Fives", "Sixes", "Three Of A Kind",
@@ -542,8 +556,10 @@ def take_turn(player_card: dict, yahtzee_bonus: int):
     if roll_again == "1":
         re_roll(die)
 
+    print("-- PLAYER'S CURRENT COMBOS --")
+    print_score(player_card)
     combo_choice(player_card, die, yahtzee_bonus)
-    print("-- PLAYER'S CURRENT SCORE --")
+    print("-- PLAYER'S UPDATED COMBOS --")
     print_score(player_card)
 
 
