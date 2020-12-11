@@ -55,7 +55,7 @@ def roll_die(current_die: list) -> list:
     return current_die
 
 
-def select_die(current_die: list) -> list:
+def remove_die(current_die: list) -> list:
     """ Choose die to keep.
 
     Discards die the player doesn't want to keep and keeps going until the player is satisfied.
@@ -66,7 +66,25 @@ def select_die(current_die: list) -> list:
     :return: list of dice the user has chosen to keep
     """
 
-    return None
+    dice_selection = True
+
+    while dice_selection:
+        print(current_die)
+        for index in range(len(current_die)):
+            print(f"{index + 1}. {current_die[index]}")
+
+        print("6. Exit")
+
+        index = int(input("\nWhich die do you want to remove? "))
+
+        if 0 < index < 5:
+            current_die.pop(index - 1)
+            if len(current_die) == 0:
+                dice_selection = False
+        else:
+            dice_selection = False
+
+    return current_die
 
 
 def print_current_dice(current_die: list):
@@ -134,7 +152,7 @@ def initialize_game():
     Print interface for players to start the game.
     """
 
-    pass
+    remove_die([1, 2, 3, 4, 5])
 
 
 def main():
