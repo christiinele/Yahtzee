@@ -1,7 +1,7 @@
 """
 Christine Le
 A01235924
-Assignment 3 - Yahtzee
+Final - Yahtzee
 """
 
 
