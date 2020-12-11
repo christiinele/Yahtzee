@@ -139,21 +139,6 @@ def re_roll(die: list) -> list:
     return die
 
 
-def take_turn():
-    """
-    Simulate single turn.
-    """
-
-    die = roll_die([])
-    print_current_hand(die)
-
-    roll_again = input("\nDo you want to re-roll any of the dice in your hand?\
-                       \n\t1. Yes\n\t2. No\n")
-
-    if roll_again == "1":
-        re_roll(die)
-
-
 def validate_singles(choice: int, die: str) -> int:
     """ Validate upper section.
 
@@ -185,7 +170,7 @@ def validate_singles(choice: int, die: str) -> int:
         return 0
 
 
-def validate_three_of_a_kind(die):
+def validate_three_of_a_kind(die: str) -> int:
     """ Validate three of a kind.
 
     Checks if combo exists and returns the value of the combo.
@@ -206,7 +191,7 @@ def validate_three_of_a_kind(die):
         return 0
 
 
-def validate_four_of_a_kind(die):
+def validate_four_of_a_kind(die: str) -> int:
     """ Validate four of a kind.
 
     Checks if combo exists and returns the value of the combo.
@@ -227,7 +212,7 @@ def validate_four_of_a_kind(die):
         return 0
 
 
-def validate_full_house(die):
+def validate_full_house(die: str) -> int:
     """ Validate full house.
 
     Checks if combo exists and returns the value of the combo.
@@ -249,7 +234,7 @@ def validate_full_house(die):
         return 0
 
 
-def validate_small_straight(die):
+def validate_small_straight(die: str) -> int:
     """ Validate small straight.
 
     Checks if combo exists and returns the value of the combo.
@@ -270,7 +255,7 @@ def validate_small_straight(die):
         return 0
 
 
-def validate_large_straight(die):
+def validate_large_straight(die: str) -> int:
     """ Validate large straight.
 
     Checks if combo exists and returns the value of the combo.
@@ -290,7 +275,7 @@ def validate_large_straight(die):
         return 0
 
 
-def validate_yahtzee(die):
+def validate_yahtzee(die: str) -> int:
     """ Validate Yahtzee.
 
     Checks if combo exists and returns the value of the combo.
@@ -355,6 +340,21 @@ def check_bonus(scorecard: dict) -> bool:
     """
 
     return None
+
+
+def take_turn():
+    """
+    Simulate single turn.
+    """
+
+    die = roll_die([])
+    print_current_hand(die)
+
+    roll_again = input("\nDo you want to re-roll any of the dice in your hand?\
+                       \n\t1. Yes\n\t2. No\n")
+
+    if roll_again == "1":
+        re_roll(die)
 
 
 def initialize_game():
