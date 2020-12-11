@@ -4,11 +4,9 @@ A01235924
 Final - Yahtzee
 """
 
-
 import random
 import re
 import doctest
-
 
 MIN = 0
 
@@ -36,8 +34,8 @@ def return_key(choice):
     """
 
     keys = ["Ones", "Twos", "Threes", "Fours", "Fives", "Sixes", "Three Of A Kind",
-              "Four Of A Kind", "Full House", "Small Straight", "Large Straight", "Yahtzee",
-              "Chance"]
+            "Four Of A Kind", "Full House", "Small Straight", "Large Straight", "Yahtzee",
+            "Chance"]
 
     return keys[choice - 1]
 
@@ -428,19 +426,102 @@ def combo_choice(card: dict, die: list, yahtzee_bonus: int):
             print("That combo is already filled.")
 
 
-def check_bonus(scorecard: dict) -> bool:
-    """ Check for bonus.
+def check_upper_bonus(player_card: dict) -> bool:
+    """ Check if player gets upper section bonus.
 
-    Sums up the upper section of the player's scorecard and checks whether it is equal to or
-    greater 63.
+    Checks to see if sum of upper section is equal to or more than 63.
 
-    :param scorecard: dictionary containing player's current scores
-    :precondition: parameter passed is the dictionary containing player's current scores
-    :postcondition: checks whether their upper section reaches the threshold for a bonus
-    :return: boolean if the player has already gotten Yahtzee or not
+    :param player_card: dictionary containing player's scores
+    :return: boolean if player qualifies for an upper section bonus
+
+    >>> check_upper_bonus({"Ones": 1, "Twos": 2, "Threes": 3, "Fours": 4, "Fives": 5, "Sixes": 6,\
+"Three Of A Kind": 17, "Four Of A Kind": 24, "Full House": 25, "Small Straight": 30, \
+"Large Straight": 40, "Yahtzee": 50, "Chance": 10})
+    False
+    >>> check_upper_bonus({"Ones": 5, "Twos": 10, "Threes": 15, "Fours": 20, "Fives": 25,\
+"Sixes": 30, "Three Of A Kind": 17, "Four Of A Kind": 24, "Full House": 25, "Small Straight": 30,\
+"Large Straight": 40, "Yahtzee": 50, "Chance": 10})
+    True
+    >>> check_upper_bonus({"Ones": 4, "Twos": 2, "Threes": 3, "Fours": 4, "Fives": 20, "Sixes": 30,\
+"Three Of A Kind": 17, "Four Of A Kind": 24, "Full House": 25, "Small Straight": 30,\
+"Large Straight": 40, "Yahtzee": 50, "Chance": 10})
+    True
     """
 
-    return None
+    upper_sum = player_card['Ones'] + player_card['Twos'] + player_card['Threes']
+    upper_sum += player_card['Fours'] + player_card['Fives'] + player_card['Sixes']
+
+    if upper_sum >= 63:
+        return True
+    else:
+        return False
+
+
+def calculate_score(player_card: dict) -> int:
+    """ Calculate player's total score.
+
+    Taking the dictionary containing the player's combos, sums up the total and applies a bonus if
+    applicable.
+
+    :param player_card: dictionary containing player's scores
+    :return: int indicating player's total score
+
+    >>> calculate_score({"Ones": 1, "Twos": 2, "Threes": 3, "Fours": 4, "Fives": 5, "Sixes": 6,\
+"Three Of A Kind": 17, "Four Of A Kind": 24, "Full House": 25, "Small Straight": 30, \
+"Large Straight": 40, "Yahtzee": 50, "Chance": 10})
+    217
+    >>> calculate_score({"Ones": 5, "Twos": 10, "Threes": 15, "Fours": 20, "Fives": 25,\
+"Sixes": 30, "Three Of A Kind": 17, "Four Of A Kind": 24, "Full House": 25, "Small Straight": 30,\
+"Large Straight": 40, "Yahtzee": 50, "Chance": 10})
+    336
+    """
+
+    score = 0
+
+    for value in player_card.values():
+        score += value
+
+    if check_upper_bonus(player_card):
+        score += 35
+
+    return score
+
+
+def game_verdict(p1_score, p1_bonus, p2_score, p2_bonus):
+    """ Decide game verdict.
+
+    Decides who has won the game or if it is a tie.
+
+    :param p1_score: int indicating player one's score
+    :param p1_bonus: int indicating if player one has gotten more than one yahtzee
+    :param p2_score: int indicating player two's score
+    :param p2_bonus: int indicating if player two has gotten more than one yahtzee
+
+    >>> game_verdict(200, 0, 201, 0)
+    <BLANKLINE>
+    <BLANKLINE>
+    Player two is the winner with a score of 201 to 200!
+    >>> game_verdict(150, 100, 200, 0)
+    <BLANKLINE>
+    <BLANKLINE>
+    Player one is the winner with a score of 250 to 200!
+    >>> game_verdict(300, 0, 300, 0)
+    <BLANKLINE>
+    <BLANKLINE>
+    Both players got a score of: 300. The players tied!
+    """
+
+    p1_score += p1_bonus
+    p2_score += p2_bonus
+
+    print("\n")
+
+    if p1_score == p2_score:
+        print(f"Both players got a score of: {p1_score}. The players tied!")
+    elif p1_score > p2_score:
+        print(f"Player one is the winner with a score of {p1_score} to {p2_score}!")
+    else:
+        print(f"Player two is the winner with a score of {p2_score} to {p1_score}!")
 
 
 def take_turn(player_card: dict, yahtzee_bonus: int):
@@ -491,6 +572,8 @@ def initialize_game():
 
         if -1 not in p1_card.values() and -1 not in p2_card.values():
             round_ongoing = False
+
+    game_verdict(calculate_score(p1_card), p1_bonus, calculate_score(p2_card), p2_bonus)
 
 
 def main():
