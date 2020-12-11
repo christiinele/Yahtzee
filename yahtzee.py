@@ -40,8 +40,6 @@ def roll_die(current_die: list) -> list:
     :return: list of die
     """
 
-    return None
-
 
 def select_die(current_die: list) -> list:
     """ Choose die to keep.
@@ -116,6 +114,7 @@ def check_bonus(scorecard: dict) -> bool:
 
     return None
 
+
 def initialize_game():
     """
     Print interface for players to start the game.
@@ -128,6 +127,8 @@ def main():
     """
     Drives the program
     """
+
+    initialize_game()
 
 
 if __name__ == "__main__":
