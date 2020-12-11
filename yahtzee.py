@@ -369,10 +369,10 @@ def combo_selection(choice: int, die: list) -> int:
 
 
 def update_score(player_card: dict, combo: str, combo_score: int, yahtzee_bonus: int) -> bool:
-    """ Update player score.
+    """ Check if combo has been filled and updates if not.
 
-    Updates the dictionary with player's scores with the value of the combo they selected if it is
-    unfilled. If it is filled, prompt the player to choose another combo.
+    Checks player's score card to see if chosen combo is filled. If it is, prompt them to choose
+    another one. If not, fill combo.
 
     :param player_card: dictionary containing player's scores
     :param combo: string that references which key to access in dictionary
@@ -385,7 +385,6 @@ def update_score(player_card: dict, combo: str, combo_score: int, yahtzee_bonus:
 "Large Straight": -1, "Yahtzee": -1, "Chance": -1}, "Ones", 1, 0)
     True
     """
-
     for key, value in player_card.items():
         if combo == key:
             if combo == "Yahtzee" and value == 50:
@@ -393,6 +392,37 @@ def update_score(player_card: dict, combo: str, combo_score: int, yahtzee_bonus:
             if value == -1:
                 player_card[key] = combo_score
                 return True
+
+
+def combo_choice(card: dict, die: list, yahtzee_bonus: int):
+    """ Prompt player for combo choice.
+
+    Prints list of combos for player to choose from, then asks them which of the combos they would
+    like to go with given their current hand.
+
+    :param card: dictionary of player's scores and current existing combos
+    :param die: list of player's current hand
+    :param yahtzee_bonus: int indicating player's current Yahtzee bonus
+    """
+
+    print("\n")
+
+    choices = ["1. Ones", "2. Twos", "3. Threes", "4. Fours", "5. Fives", "6. Sixes",
+               "7. Three Of A Kind", "8. Four Of A Kind", "9. Full House", "10. Small Straight",
+               "11. Large Straight", "12. Yahtzee", "13. Chance"]
+
+    for option in choices:
+        print(option)
+
+    keep_looping = True
+
+    while keep_looping:
+        choice = int(input("\nWhich combo do you want to select for your hand? "))
+
+        if update_score(card, return_key(choice), combo_selection(choice, die), yahtzee_bonus):
+            return -1
+        else:
+            print("That combo is already filled.")
 
 
 def check_bonus(scorecard: dict) -> bool:
