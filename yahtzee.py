@@ -189,6 +189,16 @@ def validate_singles(choice: int, die: str) -> int:
 
     >>> validate_singles(1, '12345')
     1
+    >>> validate_singles(2, '22222')
+    10
+    >>> validate_singles(3, '12334')
+    6
+    >>> validate_singles(4, '12333')
+    0
+    >>> validate_singles(5, '14566')
+    5
+    >>> validate_singles(6, '66666')
+    30
     """
 
     if choice == 1 and re.search(r'[1]', die, re.I):
@@ -219,6 +229,8 @@ def validate_three_of_a_kind(die: str) -> int:
 
     >>> validate_three_of_a_kind('23444')
     17
+    >>> validate_three_of_a_kind('12345')
+    0
     """
 
     if re.search(r'([1-6])\1{2}', die, re.I):
@@ -240,6 +252,8 @@ def validate_four_of_a_kind(die: str) -> int:
 
     >>> validate_four_of_a_kind('45555')
     24
+    >>> validate_four_of_a_kind('12345')
+    0
     """
 
     if re.search(r'([1-6])\1{3}', die, re.I):
@@ -261,6 +275,8 @@ def validate_full_house(die: str) -> int:
 
     >>> validate_full_house('22255')
     25
+    >>> validate_full_house('44445')
+    0
     """
 
     if re.search(r'([1-6])\1{2}([1-6])\2', die, re.I):
@@ -283,6 +299,10 @@ def validate_small_straight(die: str) -> int:
 
     >>> validate_small_straight('12345')
     30
+    >>> validate_small_straight('12234')
+    30
+    >>> validate_small_straight('23333')
+    0
     """
 
     remove_duplicates = list_to_string(sorted("".join(set(die))))
@@ -304,6 +324,10 @@ def validate_large_straight(die: str) -> int:
 
     >>> validate_large_straight('12345')
     40
+    >>> validate_large_straight('23456')
+    40
+    >>> validate_large_straight('11111')
+    0
     """
 
     if re.search(r'12345|23456', die, re.I):
@@ -324,6 +348,8 @@ def validate_yahtzee(die: str) -> int:
 
     >>> validate_yahtzee('66666')
     50
+    >>> validate_yahtzee('12345')
+    0
     """
 
     if re.search(r'([1-6])\1{4}', die, re.I):
@@ -344,6 +370,8 @@ def validate_chance(die: str) -> int:
 
     >>> validate_chance('11335')
     13
+    >>> validate_chance('66666')
+    30
     """
 
     numbers = list(map(int, die))
