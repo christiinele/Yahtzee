@@ -372,7 +372,7 @@ def update_score(player_card: dict, combo: str, combo_score: int, yahtzee_bonus:
     """ Update player score.
 
     Updates the dictionary with player's scores with the value of the combo they selected if it is
-    unfilled. If it is filled, prompt the player again.
+    unfilled. If it is filled, prompt the player to choose another combo.
 
     :param player_card: dictionary containing player's scores
     :param combo: string that references which key to access in dictionary
