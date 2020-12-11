@@ -59,11 +59,13 @@ def roll_die(current_die: list) -> list:
     :return: list of die
     """
 
-    MAX_DIE = 5
+    MAX_DIE_IN_LIST = 5
+    MIN = 1
+    MAX = 7
 
-    if len(current_die) < MAX_DIE:
-        for dice in range(MAX_DIE - len(current_die)):
-            current_die.append(random.randrange(1, 7))
+    if len(current_die) < MAX_DIE_IN_LIST:
+        for dice in range(MAX_DIE_IN_LIST - len(current_die)):
+            current_die.append(random.randrange(MIN, MAX))
 
     return current_die
 
@@ -83,7 +85,7 @@ def print_current_hand(die: list):
 
 
 def remove_die(current_die: list) -> list:
-    """ Choose die to keep.
+    """ Choose die to remove.
 
     Discards die the player doesn't want to keep and keeps going until the player is satisfied.
 
@@ -94,6 +96,8 @@ def remove_die(current_die: list) -> list:
     """
 
     dice_selection = True
+    MIN = 0
+    MAX = 5
 
     while dice_selection:
         for index in range(len(current_die)):
@@ -103,9 +107,9 @@ def remove_die(current_die: list) -> list:
 
         index = int(input("\nWhich die do you want to remove? "))
 
-        if 0 < index < 5:
+        if MIN < index < MAX:
             current_die.pop(index - 1)
-            if len(current_die) == 0:
+            if len(current_die) == MIN:
                 dice_selection = False
         else:
             dice_selection = False
@@ -113,20 +117,33 @@ def remove_die(current_die: list) -> list:
     return current_die
 
 
-def re_roll(die) -> list:
-    times_to_roll = 0
+def re_roll(die: list) -> list:
+    """ Repopulate list with die.
 
-    while times_to_roll < 2:
+    After player has discarded die they don't want to keep, repopulates list with new dice rolls.
+
+    :param die: current die the player has
+    :return: full hand of dice
+    """
+
+    AMOUNT_OF_TIME_RE_ROLLED = 0
+    MAX_TIMES_TO_RE_ROLL = 2
+
+    while AMOUNT_OF_TIME_RE_ROLLED < MAX_TIMES_TO_RE_ROLL:
         remove_die(die)
         print("Your new hand is: ")
         print_current_hand(roll_die(die))
         print("\n")
-        times_to_roll += 1
+        AMOUNT_OF_TIME_RE_ROLLED += 1
 
     return die
 
 
 def take_turn():
+    """
+    Simulate single turn.
+    """
+
     die = roll_die([])
     print_current_hand(die)
 
@@ -138,11 +155,15 @@ def take_turn():
 
 
 def validate_singles(choice: int, die: str) -> int:
-    """
+    """ Validate upper section.
 
-    :param choice:
-    :param die:
-    :return:
+    Checks if combo exists and returns the value of the combo.
+
+    :param choice: which combo the player has selected
+    :param die: current die the player has
+    :precondition: choice is an int, die is a string
+    :postcondition: returns an int of the value of the player's hand
+    :return: value of player's combo as an int
 
     >>> validate_singles(1, '12345')
     1
@@ -165,10 +186,14 @@ def validate_singles(choice: int, die: str) -> int:
 
 
 def validate_three_of_a_kind(die):
-    """
+    """ Validate three of a kind.
 
-    :param die:
-    :return:
+    Checks if combo exists and returns the value of the combo.
+
+    :param die: current die the player has
+    :precondition: die is a string
+    :postcondition: returns an int of the value of the player's hand
+    :return: value of player's combo as an int
 
     >>> validate_three_of_a_kind('23444')
     17
@@ -182,10 +207,14 @@ def validate_three_of_a_kind(die):
 
 
 def validate_four_of_a_kind(die):
-    """
+    """ Validate four of a kind.
 
-    :param die:
-    :return:
+    Checks if combo exists and returns the value of the combo.
+
+    :param die: current die the player has
+    :precondition: die is a string
+    :postcondition: returns an int of the value of the player's hand
+    :return: value of player's combo as an int
 
     >>> validate_four_of_a_kind('45555')
     24
@@ -199,10 +228,14 @@ def validate_four_of_a_kind(die):
 
 
 def validate_full_house(die):
-    """
+    """ Validate full house.
 
-    :param die:
-    :return:
+    Checks if combo exists and returns the value of the combo.
+
+    :param die: current die the player has
+    :precondition: die is a string
+    :postcondition: returns an int of the value of the player's hand
+    :return: value of player's combo as an int
 
     >>> validate_full_house('22255')
     25
@@ -217,10 +250,14 @@ def validate_full_house(die):
 
 
 def validate_small_straight(die):
-    """
+    """ Validate small straight.
 
-    :param die:
-    :return:
+    Checks if combo exists and returns the value of the combo.
+
+    :param die: current die the player has
+    :precondition: die is a string
+    :postcondition: returns an int of the value of the player's hand
+    :return: value of player's combo as an int
 
     >>> validate_small_straight('12345')
     30
@@ -234,10 +271,14 @@ def validate_small_straight(die):
 
 
 def validate_large_straight(die):
-    """
+    """ Validate large straight.
 
-    :param die:
-    :return:
+    Checks if combo exists and returns the value of the combo.
+
+    :param die: current die the player has
+    :precondition: die is a string
+    :postcondition: returns an int of the value of the player's hand
+    :return: value of player's combo as an int
 
     >>> validate_large_straight('12345')
     40
@@ -250,10 +291,14 @@ def validate_large_straight(die):
 
 
 def validate_yahtzee(die):
-    """
+    """ Validate Yahtzee.
 
-    :param die:
-    :return:
+    Checks if combo exists and returns the value of the combo.
+
+    :param die: current die the player has
+    :precondition: die is a string
+    :postcondition: returns an int of the value of the player's hand
+    :return: value of player's combo as an int
 
     >>> validate_yahtzee('66666')
     50
