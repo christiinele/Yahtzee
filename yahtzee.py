@@ -19,6 +19,26 @@ def list_to_string(die: list) -> str:
     return string
 
 
+def return_key(choice):
+    """ Take player input and return a key.
+
+    Taking the player's input, returns the equivalent key to access the score in the player's score
+    card.
+
+    :param choice: int indicating player's choice
+    :return: string that is a key
+
+    >>> return_key(1)
+    'Ones'
+    """
+
+    keys = ["Ones", "Twos", "Threes", "Fours", "Fives", "Sixes", "Three Of A Kind",
+              "Four Of A Kind", "Full House", "Small Straight", "Large Straight", "Yahtzee",
+              "Chance"]
+
+    return keys[choice - 1]
+
+
 def create_scorecard() -> dict:
     """ Create a score card.
 
