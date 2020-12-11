@@ -6,6 +6,7 @@ Final - Yahtzee
 
 
 import random
+import re
 
 
 def create_scorecard() -> dict:
@@ -100,7 +101,7 @@ def remove_die(current_die: list) -> list:
     return current_die
 
 
-def re_roll(die):
+def re_roll(die) -> list:
     times_to_roll = 0
 
     while times_to_roll < 2:
@@ -122,6 +123,23 @@ def take_turn():
 
     if roll_again == "1":
         re_roll(die)
+
+
+def validate_singles(choice, die):
+    if choice == 1 and re.search(r'[1]', die, re.I):
+        return int(die.count('1'))
+    elif choice == 2 and re.search(r'[2]', die, re.I):
+        return int(die.count('2') * 2)
+    elif choice == 3 and re.search(r'[3]', die, re.I):
+        return int(die.count('3') * 3)
+    elif choice == 4 and re.search(r'[4]', die, re.I):
+        return int(die.count('4') * 4)
+    elif choice == 5 and re.search(r'[5]', die, re.I):
+        return int(die.count('5') * 5)
+    elif choice == 6 and re.search(r'[6]', die, re.I):
+        return int(die.count('6') * 6)
+    else:
+        return 0
 
 
 def validate_combo(current_dice: list, combo_choice: str) -> int:
