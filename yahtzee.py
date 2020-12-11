@@ -8,7 +8,7 @@ Final - Yahtzee
 import random
 
 
-def create_score_card() -> dict:
+def create_scorecard() -> dict:
     """ Create a score card.
 
     Generates a score card that can be updated with the players' scores as the game progresses.
@@ -55,6 +55,20 @@ def roll_die(current_die: list) -> list:
     return current_die
 
 
+def print_current_hand(die: list):
+    """ Print die.
+
+    Taking the list of current dice the player has, prints it in a readable format for the player.
+
+    :param die: list of dice the player currently has
+    :precondition: passed parameter must be a list
+    :postcondition: prints list in the command line for the player in a readable format
+    """
+
+    for dice in die:
+        print(f"[ {dice} ]\t", end='')
+
+
 def remove_die(current_die: list) -> list:
     """ Choose die to keep.
 
@@ -69,7 +83,8 @@ def remove_die(current_die: list) -> list:
     dice_selection = True
 
     while dice_selection:
-        print(current_die)
+        print_current_hand(current_die)
+        print("\n")
         for index in range(len(current_die)):
             print(f"{index + 1}. {current_die[index]}")
 
@@ -85,19 +100,6 @@ def remove_die(current_die: list) -> list:
             dice_selection = False
 
     return current_die
-
-
-def print_current_dice(current_die: list):
-    """ Print die.
-
-    Taking the list of current dice the player has, prints it in a readable format for the player.
-
-    :param current_die: list of dice the player currently has
-    :precondition: passed parameter must be a list
-    :postcondition: prints list in the command line for the player in a readable format
-    """
-
-    return None
 
 
 def validate_combo(current_dice: list, combo_choice: str) -> int:
