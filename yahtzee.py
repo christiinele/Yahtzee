@@ -7,6 +7,16 @@ Final - Yahtzee
 
 import random
 import re
+import doctest
+
+
+def list_to_string(die: list) -> str:
+    string = ""
+
+    for item in sorted(die):
+        string += str(item)
+
+    return string
 
 
 def create_scorecard() -> dict:
@@ -49,8 +59,10 @@ def roll_die(current_die: list) -> list:
     :return: list of die
     """
 
-    if len(current_die) < 5:
-        for dice in range(5 - len(current_die)):
+    MAX_DIE = 5
+
+    if len(current_die) < MAX_DIE:
+        for dice in range(MAX_DIE - len(current_die)):
             current_die.append(random.randrange(1, 7))
 
     return current_die
@@ -125,7 +137,17 @@ def take_turn():
         re_roll(die)
 
 
-def validate_singles(choice, die):
+def validate_singles(choice: int, die: str) -> int:
+    """
+
+    :param choice:
+    :param die:
+    :return:
+
+    >>> validate_singles(1, '12345')
+    1
+    """
+
     if choice == 1 and re.search(r'[1]', die, re.I):
         return int(die.count('1'))
     elif choice == 2 and re.search(r'[2]', die, re.I):
@@ -138,6 +160,107 @@ def validate_singles(choice, die):
         return int(die.count('5') * 5)
     elif choice == 6 and re.search(r'[6]', die, re.I):
         return int(die.count('6') * 6)
+    else:
+        return 0
+
+
+def validate_three_of_a_kind(die):
+    """
+
+    :param die:
+    :return:
+
+    >>> validate_three_of_a_kind('23444')
+    17
+    """
+
+    if re.search(r'([1-6])\1{2}', die, re.I):
+        numbers = list(map(int, die))
+        return sum(numbers)
+    else:
+        return 0
+
+
+def validate_four_of_a_kind(die):
+    """
+
+    :param die:
+    :return:
+
+    >>> validate_four_of_a_kind('45555')
+    24
+    """
+
+    if re.search(r'([1-6])\1{3}', die, re.I):
+        numbers = list(map(int, die))
+        return sum(numbers)
+    else:
+        return 0
+
+
+def validate_full_house(die):
+    """
+
+    :param die:
+    :return:
+
+    >>> validate_full_house('22255')
+    25
+    """
+
+    if re.search(r'([1-6])\1{2}([1-6])\2', die, re.I):
+        return 25
+    elif re.search(r'([1-6])\1([1-6])\2{2}', die, re.I):
+        return 25
+    else:
+        return 0
+
+
+def validate_small_straight(die):
+    """
+
+    :param die:
+    :return:
+
+    >>> validate_small_straight('12345')
+    30
+    """
+
+    remove_duplicates = list_to_string(sorted("".join(set(die))))
+    if re.search(r'1234|2345|3456', remove_duplicates, re.I):
+        return 30
+    else:
+        return 0
+
+
+def validate_large_straight(die):
+    """
+
+    :param die:
+    :return:
+
+    >>> validate_large_straight('12345')
+    40
+    """
+
+    if re.search(r'12345|23456', die, re.I):
+        return 40
+    else:
+        return 0
+
+
+def validate_yahtzee(die):
+    """
+
+    :param die:
+    :return:
+
+    >>> validate_yahtzee('66666')
+    50
+    """
+
+    if re.search(r'([1-6])\1{4}', die, re.I):
+        return 50
     else:
         return 0
 
@@ -194,7 +317,7 @@ def initialize_game():
     Print interface for players to start the game.
     """
 
-    take_turn()
+    #take_turn()
 
 
 def main():
@@ -202,7 +325,8 @@ def main():
     Drives the program
     """
 
-    initialize_game()
+    doctest.testmod(verbose=True)
+    #initialize_game()
 
 
 if __name__ == "__main__":
