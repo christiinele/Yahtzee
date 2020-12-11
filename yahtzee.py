@@ -9,9 +9,6 @@ import re
 import doctest
 
 
-MIN = 0
-
-
 def list_to_string(die: list) -> str:
     """ Convert list to string
 
@@ -82,6 +79,13 @@ def print_score(score_card: dict):
         print(f"{key}\t{value}")
 
 
+def roll_dice() -> int:
+    MIN = 1
+    MAX = 7
+
+    return random.randrange(MIN, MAX)
+
+
 def roll_die(current_die: list) -> list:
     """ Roll die.
 
@@ -95,12 +99,10 @@ def roll_die(current_die: list) -> list:
     """
 
     MAX_DIE_IN_LIST = 5
-    MIN = 1
-    MAX = 7
 
     if len(current_die) < MAX_DIE_IN_LIST:
         for dice in range(MAX_DIE_IN_LIST - len(current_die)):
-            current_die.append(random.randrange(MIN, MAX))
+            current_die.append(roll_dice())
 
     return current_die
 
@@ -568,10 +570,12 @@ def initialize_game():
     Print interface for players to start the game.
     """
 
+    MIN_SCORE = 0
+
     p1_card = create_score_card()
     p2_card = create_score_card()
-    p1_bonus = MIN
-    p2_bonus = MIN
+    p1_bonus = MIN_SCORE
+    p2_bonus = MIN_SCORE
 
     round_ongoing = True
 
