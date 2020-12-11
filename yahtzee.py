@@ -334,7 +334,7 @@ def validate_chance(die: str) -> int:
 
 
 def combo_selection(choice: int, die: list) -> int:
-    """ Check dice combination.
+    """ Check combo selection.
 
     Taking what combo choice the user has selected, checks to see if it is valid and if so, returns
     the value of the combo. If it is invalid, the user gets a 0.
@@ -368,20 +368,31 @@ def combo_selection(choice: int, die: list) -> int:
         return validate_chance(die)
 
 
-def update_score(scorecard: dict, combo_to_update: str, combo_value: int) -> dict:
+def update_score(player_card: dict, combo: str, combo_score: int, yahtzee_bonus: int) -> bool:
     """ Update player score.
 
-    Updates the dictionary with players' scores with the value of the combo they selected.
+    Updates the dictionary with player's scores with the value of the combo they selected if it is
+    unfilled. If it is filled, prompt the player again.
 
-    :param scorecard: dictionary of possible combos and what the player has scored thus far
-    :param combo_to_update: string to indicate which key to update with a value
-    :param combo_value: integer value for the key the player wants to update
-    :precondition: scorecard has been initialized with proper keys, the combo to update exists as a
-    pre-existing key, and combo value is equal to or more than zero
-    :return: updated dictionary with the player's new score
+    :param player_card: dictionary containing player's scores
+    :param combo: string that references which key to access in dictionary
+    :param combo_score: int value of combo
+    :param yahtzee_bonus: if Yahtzee is already filled and player gets another Yahtzee, add bonus
+    :return: boolean if a score has been updated or not
+
+    >>> update_score({"Ones": -1, "Twos": -1, "Threes": -1, "Fours": -1, "Fives": -1, "Sixes": -1,\
+"Three Of A Kind": -1, "Four Of A Kind": -1, "Full House": -1, "Small Straight": -1, \
+"Large Straight": -1, "Yahtzee": -1, "Chance": -1}, "Ones", 1, 0)
+    True
     """
 
-    return None
+    for key, value in player_card.items():
+        if combo == key:
+            if combo == "Yahtzee" and value == 50:
+                yahtzee_bonus += 50
+            if value == -1:
+                player_card[key] = combo_score
+                return True
 
 
 def check_bonus(scorecard: dict) -> bool:
