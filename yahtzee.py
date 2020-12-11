@@ -313,20 +313,39 @@ def validate_chance(die: str) -> int:
     return sum(numbers)
 
 
-def validate_combo(current_dice: list, combo_choice: str) -> int:
+def combo_selection(choice: int, die: list) -> int:
     """ Check dice combination.
 
     Taking what combo choice the user has selected, checks to see if it is valid and if so, returns
     the value of the combo. If it is invalid, the user gets a 0.
 
-    :param current_dice: list of dice the player currently has
-    :param combo_choice: string that is a number which indicates which combo the user wants to
-    select
+    :param choice: int of what combo the player wants to choose
+    :param die: list of dice the player currently has
     :precondition: list must contain integers from 1-6, combo choice must be a valid string
     :return: value of combo that player has selected
+
+    >>> combo_selection(1, [1, 2, 3, 4, 5])
+    1
     """
 
-    return None
+    die = list_to_string(die)
+
+    if 0 < choice < 7:
+        return validate_singles(choice, die)
+    elif choice == 7:
+        return validate_three_of_a_kind(die)
+    elif choice == 8:
+        return validate_four_of_a_kind(die)
+    elif choice == 9:
+        return validate_full_house(die)
+    elif choice == 10:
+        return validate_small_straight(die)
+    elif choice == 11:
+        return validate_large_straight(die)
+    elif choice == 12:
+        return validate_yahtzee(die)
+    else:
+        return validate_chance(die)
 
 
 def update_score(scorecard: dict, combo_to_update: str, combo_value: int) -> dict:
