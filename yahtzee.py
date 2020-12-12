@@ -434,9 +434,12 @@ def update_score(player_card: dict, combo: str, combo_score: int, yahtzee_bonus:
         if combo == key:
             if combo == "Yahtzee" and value == 50:
                 yahtzee_bonus += 50
+                return False
             if value == -1:
                 player_card[key] = combo_score
                 return True
+            else:
+                return False
 
 
 def combo_choice(card: dict, die: list, yahtzee_bonus: int):
