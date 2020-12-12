@@ -4,7 +4,7 @@ from unittest.mock import patch
 from yahtzee import print_current_hand
 
 
-class TestPrintScore(TestCase):
+class TestPrintCurrentHand(TestCase):
     @patch('sys.stdout', new_callable=io.StringIO)
     def test_print_current_dice_5(self, mock_output):
         current_dice = [1, 2, 3, 4, 5]

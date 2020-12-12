@@ -2,7 +2,7 @@ from unittest import TestCase
 from yahtzee import combo_selection
 
 
-class TestValidateCombo(TestCase):
+class TestComboSelection(TestCase):
     def test_combo_selection_ones_true(self):
         current_dice = [1, 1, 1, 1, 1]
         combo_choice = 1
