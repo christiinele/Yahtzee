@@ -80,6 +80,13 @@ def print_score(score_card: dict):
 
 
 def roll_dice() -> int:
+    """ Roll a single dice.
+
+    Rolls a single dice and returns that value.
+
+    :return: int that is a single die
+    """
+
     MIN = 1
     MAX = 7
 
