@@ -79,20 +79,6 @@ def print_score(score_card: dict):
         print(f"{key}\t{value}")
 
 
-def roll_dice() -> int:
-    """ Roll a single dice.
-
-    Rolls a single dice and returns that value.
-
-    :return: int that is a single die
-    """
-
-    MIN = 1
-    MAX = 7
-
-    return random.randrange(MIN, MAX)
-
-
 def roll_die(current_die: list) -> list:
     """ Roll die.
 
@@ -106,10 +92,10 @@ def roll_die(current_die: list) -> list:
     """
 
     MAX_DIE_IN_LIST = 5
+    values = [1, 2, 3, 4, 5, 6]
 
     if len(current_die) < MAX_DIE_IN_LIST:
-        for dice in range(MAX_DIE_IN_LIST - len(current_die)):
-            current_die.append(roll_dice())
+        current_die += random.choices(values, k=MAX_DIE_IN_LIST - len(current_die))
 
     return current_die
 
